@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Problem Launcher</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        margin: 0;
+        padding: 20px;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f8f9fa;
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+      }
+
+      #buttons-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 12px;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      button {
+        padding: 10px 15px;
+        background: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.2s;
+      }
+
+      button:hover {
+        background: #0056b3;
+        transform: translateY(-2px);
+      }
+
+      button:active {
+        transform: scale(0.98);
+        background: #004080;
+      }
+
+      #overlay-solution {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      #overlay-content {
+        background: white;
+        border-radius: 12px;
+        max-width: 800px;
+        width: 100%;
+        padding: 20px;
+        position: relative;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        overflow-y: auto;
+        max-height: 80vh;
+      }
+
+      #close-btn {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        background: crimson;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      #close-btn:hover {
+        background: darkred;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🧠 JavaScript Problem Runner</h1>
+    <div id="buttons-container"></div>
+
+    <div id="overlay-solution">
+      <div id="overlay-content">
+        <button id="close-btn">Close</button>
+        <div id="solution-output"></div>
+      </div>
+    </div>
+
+    <script>
+      const container = document.getElementById("buttons-container");
+      const overlay = document.getElementById("overlay-solution");
+      let solutionOutput = document.querySelector("#solution-output");
+      const closeBtn = document.getElementById("close-btn");
+
+      for (let i = 1; i <= 100; i++) {
+        const btn = document.createElement("button");
+        btn.textContent = `Problem ${i}`;
+        btn.setAttribute("data-file", `p${i}.js`);
+        btn.setAttribute("data-index", i);
+        container.appendChild(btn);
+      }
+
+      container.addEventListener("click", (e) => {
+        if (e.target.tagName === "BUTTON") {
+          const fileName = e.target.getAttribute("data-file");
+          const problemIndex = e.target.getAttribute("data-index");
+          overlay.style.display = "flex";
+          solutionOutput.innerHTML = ` 
+          <h2 id="soltittle"></h2>
+          <h2>Problem ${problemIndex}</h2>`;
+          console.log(solutionOutput);
+          document
+            .querySelectorAll("script[data-dynamic='true']")
+            .forEach((el) => el.remove());
+          const script = document.createElement("script");
+          script.src = fileName;
+          script.setAttribute("data-dynamic", "true");
+          script.onload = () => console.log(`${fileName} loaded`);
+          script.onerror = () => {
+            console.error(`Failed to load ${fileName}`);
+            solutionOutput.innerHTML += `<p style="color: red;">Failed to load script.</p>`;
+          };
+
+          document.body.appendChild(script);
+        }
+      });
+
+      closeBtn.addEventListener("click", () => {
+        overlay.style.display = "none";
+        solutionOutput.innerHTML = "";
+      });
+    </script>
+  </body>
+</html>
