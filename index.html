@@ -124,6 +124,7 @@
 
       container.addEventListener("click", (e) => {
         if (e.target.tagName === "BUTTON") {
+          console.log(e.target.tagName);
           const fileName = e.target.getAttribute("data-file");
           const problemIndex = e.target.getAttribute("data-index");
           overlay.style.display = "flex";
