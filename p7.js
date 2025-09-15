@@ -35,3 +35,7 @@ function digitize(n) {
 const num = 35231;
 const arr = digitize(num);
 console.log(arr);
+
+const digitize3 = (x) => Number(x.toString().split("").reverse().join(""));
+console.log(digitize3(6327));
+  
