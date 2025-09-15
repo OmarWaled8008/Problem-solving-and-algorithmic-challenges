@@ -1,11 +1,11 @@
-// function digitize(n) {
-//   let strNum = n.toString();
-//   let reversedArrNums = [];
-//   for (let i = strNum.length - 1; i >= 0; i--) {
-//     reversedArrNums[reversedArrNums.length] = Number(strNum[i]);
-//   }
-//   return reversedArrNums;
-// }
+function digitize2(n) {
+  let strNum = n.toString();
+  let reversedArrNums = [];
+  for (let i = strNum.length - 1; i >= 0; i--) {
+    reversedArrNums[reversedArrNums.length] = Number(strNum[i]);
+  }
+  return reversedArrNums;
+}
 
 function reverseNumber(num) {
   let rev = 0;
